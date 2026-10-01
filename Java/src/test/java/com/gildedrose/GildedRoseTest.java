@@ -110,4 +110,32 @@ class GildedRoseTest {
             assertThat(item.quality).isEqualTo(50);
         }
     }
+
+    @Nested
+    @DisplayName("Conjured Items")
+    class ConjuredItems {
+
+        @Test
+        @DisplayName("Quality degrades twice as fast as normal items before sell-by date (-2)")
+        void degradesTwiceAsFast() {
+            Item item = updateSingleItem("Conjured Mana Cake", 10, 20);
+            assertThat(item.sellIn).isEqualTo(9);
+            assertThat(item.quality).isEqualTo(18);
+        }
+
+        @Test
+        @DisplayName("Quality degrades twice as fast as normal items after sell-by date (-4)")
+        void degradesFourTimesAsFastAfterSellByDate() {
+            Item item = updateSingleItem("Conjured Mana Cake", 0, 20);
+            assertThat(item.sellIn).isEqualTo(-1);
+            assertThat(item.quality).isEqualTo(16);
+        }
+
+        @Test
+        @DisplayName("Quality is never negative")
+        void conjuredQualityNeverNegative() {
+            Item item = updateSingleItem("Conjured Mana Cake", 5, 1);
+            assertThat(item.quality).isZero();
+        }
+    }
 }

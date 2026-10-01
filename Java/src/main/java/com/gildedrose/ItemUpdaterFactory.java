@@ -1,9 +1,11 @@
 package com.gildedrose;
 
 
-public class ItemUpdaterFactory {
+public final class ItemUpdaterFactory {
 
-    protected static AbstractItemUpdater getUpdater(Item item) {
+    private ItemUpdaterFactory() {}
+
+    public static AbstractItemUpdater getUpdater(Item item) {
         if (item == null || item.name == null) {
             return new NormalItemUpdater();
         }
@@ -16,6 +18,9 @@ public class ItemUpdaterFactory {
         }
         if (item.name.startsWith("Backstage passes")) {
             return new BackstagePassUpdater();
+        }
+        if (item.name.startsWith("Conjured")) {
+            return new ConjuredItemUpdater();
         }
 
         return new NormalItemUpdater();
